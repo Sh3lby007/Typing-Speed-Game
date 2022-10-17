@@ -12,18 +12,27 @@
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https:cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  
+  <link rel="stylesheet" href="index.css">
+
 </head>
+<!-- Items required in header :
+1. A title 
+2. Timer
+3. Description that says starts counting when you start typing
+-->
+
+
+
 
 <body>
 
   <div class="container is-wide-desktop is-align-items-center">
-      <div class="timer" id="timer">0</div>
-      <div class="text-display" id="textDisplay">quote</div>
-      <textarea name="textInput" id="textInput" cols="50" rows="20"></textarea>  
-</div>  
+    <div class="timer" id="timer">0</div>
+    <div class="text-display" id="quoteDisplay"></div>
+    <textarea name="quoteInput" id="quoteInput" cols="50" rows="20"></textarea>
+  </div>
 
-<script src="./index.js"></script>
+  <script type="module" src="./index.js"></script>
 
 </body>
 
