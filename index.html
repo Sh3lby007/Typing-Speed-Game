@@ -21,17 +21,33 @@
 3. Description that says starts counting when you start typing
 -->
 
-
 <body>
   <div class="columns is-mobile is-centered">
-    <div class="column is-three-quarter">
+    <div class="column">
       <div class="notification is-primary">
         <h1 class="has-text-centered has-text-black is-size-3 ">Typing Speed Game</h1>
         <br>
         <p class="has-text-centered has-text-black is-size-4">Time:</p>
-        <p class="timer has-text-centered has-text-black is-size-5" id="timer">0
+        <p class="timer has-text-centered has-text-black is-size-5" id="timer">60
         </p>
         <p class="has-text-centered has-text-black">Type to start timer</p>
+        <br>
+        <div class="columns is-multiline is-mobile">
+          <div class="column is-one-quarter">
+            <p class="has-text-centered has-text-black">WPM:</p>
+          </div>
+          <div class="column is-one-quarter">
+            <p class="has-text-centered has-text-black">Accuracy:</p>
+          </div>
+          <div class="column is-one-quarter">
+            <p class="has-text-centered has-text-black">Characters typed:</p>
+          </div>
+          <div class="column is-one-quarter">
+            <div class="has-text-centered">
+              <button class="button is-focused">Try Again</button>
+            </div>
+          </div>
+        </div>
         <textarea class="textarea is-large" id="quote-input" rows="15"></textarea>
       </div>
     </div>
