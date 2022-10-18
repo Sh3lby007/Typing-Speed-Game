@@ -22,16 +22,20 @@
 -->
 
 
-
-
 <body>
-
-  <div class="container is-wide-desktop is-align-items-center">
-    <div class="timer" id="timer">0</div>
-    <div class="text-display" id="quoteDisplay"></div>
-    <textarea name="quoteInput" id="quoteInput" cols="50" rows="20"></textarea>
+  <div class="columns is-mobile is-centered">
+    <div class="column is-three-quarter">
+      <div class="notification is-primary">
+        <h1 class="has-text-centered has-text-black is-size-3 ">Typing Speed Game</h1>
+        <br>
+        <p class="has-text-centered has-text-black is-size-4">Time:</p>
+        <p class="timer has-text-centered has-text-black is-size-5" id="timer">0
+        </p>
+        <p class="has-text-centered has-text-black">Type to start timer</p>
+        <textarea class="textarea is-large" id="quote-input" rows="15"></textarea>
+      </div>
+    </div>
   </div>
-
   <script type="module" src="./index.js"></script>
 
 </body>
