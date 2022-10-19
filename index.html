@@ -12,7 +12,6 @@
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https:cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="index.css">
 
 </head>
 <!-- Items required in header :
@@ -30,8 +29,6 @@
         <p class="has-text-centered has-text-black is-size-4">Time:</p>
         <p class="timer has-text-centered has-text-black is-size-5" id="timer">60
         </p>
-        <p class="has-text-centered has-text-black">Type to start timer</p>
-        <br>
         <div class="columns is-multiline is-mobile">
           <div class="column is-one-quarter">
             <p class="has-text-centered has-text-black">WPM:</p>
@@ -47,12 +44,16 @@
               <button class="button is-focused">Try Again</button>
             </div>
           </div>
+          <div class="quote-display is-size-5 has-text-centered has-text-black" id="quoteDisplay">
+          </div>
         </div>
-        <textarea class="textarea is-large" id="quote-input" rows="15"></textarea>
+        <textarea class="textarea is-medium" id="quoteInput" rows="15" placeholder="Type to start timer">
+        </textarea>
       </div>
     </div>
   </div>
   <script type="module" src="./index.js"></script>
+
 
 </body>
 
