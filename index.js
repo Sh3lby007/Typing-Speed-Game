@@ -10,15 +10,6 @@
 8. Once everything is done, it will display WPM, Characters typed, accuracy and a try again button which will reset everything
 */
 
-
-// How to calculate WPM = Total key pressed / time elasped in minute
-
-// The total key pressed will need to include spaces, numbers, letters and punctuation
-
-
-
-
-
 /*
 Step 2:
  
@@ -40,59 +31,74 @@ Assign variables to elements from the HTML document so that they can easily acce
 const paragraphs = ["He ordered his regular breakfast. Two eggs sunnyside up, hash browns, and two strips of bacon. He continued to look at the menu wondering if this would be the day he added something new. This was also part of the routine. A few seconds of hesitation to see if something else would be added to the order before demuring and saying that would be all. It was the same exact meal that he had ordered every day for the past two years."]
 
 
-
 const inputField = document.getElementById('quoteInput')
 const quoteDisplayField = document.getElementById('quoteDisplay')
 const clock = document.getElementById('timer')
-const accuracyTag = document.getElementById('accuracy')
+const mistakeTag = document.getElementById('mistake')
+const charTyped = document.getElementById('char-typed')
+const wpmTag = document.getElementById('wpm')
+const restartGame = document.getElementById('button')
 // How to calculate accuracy = Correct keys pressed / Total keys pressed
-let charIndex = 0
-let mistakes = charIndex
+// How to calculate WPM = Total key pressed / time elasped in minute
+// let wpm = (charTyped / 5)
+// The total key pressed will need to include spaces, numbers, letters and punctuation
 const totalKeys = paragraphs[0].split('').length
-let accuracy = ((totalKeys - mistakes) / totalKeys) + '%'
-
+let charIndex = 0
+let timeLeft = 60
+let mistakes = charIndex
+let timer
 
 
 inputField.addEventListener('input', () => {
-    timer()
+    timer = setInterval(countDown, 1000)
     const characters = quoteDisplayField.querySelectorAll('span')
     let typedCharacter = inputField.value.split('')[charIndex]
     // If user hasn't entered any characters or pressed the backspace
     if (typedCharacter == null) {
-        charIndex--
-        if (characters[charIndex].classList.remove('incorrect')) {
-            mistakes--
+        if (charIndex > 0) {
+            charIndex--
+            if (characters[charIndex].classList.contains('incorrect')) {
+                mistakes--
+            }
         }
         characters[charIndex].classList.remove('incorrect', 'correct')
-    } else if (characters[charIndex].innerHTML === typedCharacter) {
-        characters[charIndex].classList.add('correct')
-        characters[charIndex].classList.remove('incorrect')
     } else {
-        mistakes++
-        characters[charIndex].classList.add('incorrect')
-        characters[charIndex].classList.remove('correct')
-    }
-    charIndex++
-})
+        if (characters[charIndex].innerHTML === typedCharacter) {
+            characters[charIndex].classList.add('correct')
 
+        } else {
+            mistakes++
+            characters[charIndex].classList.add('incorrect')
+        }
+    }
+    charIndex++ // Increase the character index number whenever user types in an input, dont care correct or incorrect character
+
+    mistakeTag.innerText = 'Mistakes:' + mistakes
+    charTyped.innerText = 'Characters Typed:' + charIndex
+
+})
 
 function displayParagraph() {
 
     // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
-    // This is so we can check manipulate each characters easily from now on.
+    // This is so we can check manipulate each characters easily from now on and later manipulate them in the css file so they display the colour we want if the user enters wrong characters.
     paragraphs[0].split('').forEach(span => {
         let characterSpan = `<span>${span}</span>`;
         quoteDisplayField.innerHTML += characterSpan
         inputField.value = null
     })
-
-}
-
-function timer() {
-    clock.innerText = 0 + 's'
-    setInterval(() => {
-
-    },);
 }
 
 displayParagraph()
+
+function countDown() {
+    if (timeLeft > 0) {
+        timeLeft--
+        clock.innerText = timeLeft + 's'
+    }
+}
+
+// Reloads the page and restarts the game
+restartGame.addEventListener('click', () => {
+    location.reload()
+})

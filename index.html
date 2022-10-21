@@ -27,21 +27,22 @@
         <h1 class="has-text-centered has-text-black is-size-3 ">Typing Speed Game</h1>
         <br>
         <p class="has-text-centered has-text-black is-size-4">Time:</p>
-        <p class="timer has-text-centered has-text-black is-size-5" id="timer">0s
+        <p class="timer has-text-centered has-text-black is-size-5" id="timer">60s
         </p>
         <div class="columns is-multiline is-mobile">
           <div class="column is-one-quarter">
-            <p class="has-text-centered has-text-black">WPM:</p>
+            <p class="has-text-centered has-text-black" id="wpm">WPM:</p>
           </div>
           <div class="column is-one-quarter">
-            <p class="has-text-centered has-text-black" id="accuracy">Accuracy:</p>
+            <p class="has-text-centered has-text-black" id="mistake">Mistakes:</p>
+
           </div>
           <div class="column is-one-quarter">
-            <p class="has-text-centered has-text-black">Characters typed:</p>
+            <p class="has-text-centered has-text-black" id="char-typed">Characters Typed:</p>
           </div>
           <div class="column is-one-quarter">
             <div class="has-text-centered">
-              <button class="button is-focused">Try Again</button>
+              <button class="button is-focused" id="button">Try Again</button>
             </div>
           </div>
           <div class="quote-display is-size-5 has-text-centered has-text-black" id="quoteDisplay">
