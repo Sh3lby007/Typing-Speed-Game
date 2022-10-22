@@ -46,13 +46,17 @@ const totalKeys = paragraphs[0].split('').length
 let charIndex = 0
 let timeLeft = 60
 let mistakes = charIndex
+let isTyping = charIndex
 let timer
 
 
 inputField.addEventListener('input', () => {
-    timer = setInterval(countDown, 1000)
     const characters = quoteDisplayField.querySelectorAll('span')
     let typedCharacter = inputField.value.split('')[charIndex]
+    if (!isTyping) {
+        timer = setInterval(countDown, 1000)
+        isTyping = true
+    }
     // If user hasn't entered any characters or pressed the backspace
     if (typedCharacter == null) {
         if (charIndex > 0) {
@@ -79,7 +83,6 @@ inputField.addEventListener('input', () => {
 })
 
 function displayParagraph() {
-
     // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
     // This is so we can check manipulate each characters easily from now on and later manipulate them in the css file so they display the colour we want if the user enters wrong characters.
     paragraphs[0].split('').forEach(span => {
@@ -92,9 +95,12 @@ function displayParagraph() {
 displayParagraph()
 
 function countDown() {
+    clock.innerText = timeLeft + 's'
     if (timeLeft > 0) {
         timeLeft--
         clock.innerText = timeLeft + 's'
+    } else {
+        clearInterval(timer)
     }
 }
 
