@@ -38,13 +38,10 @@ const mistakeTag = document.getElementById('mistake')
 const charTyped = document.getElementById('char-typed')
 const wpmTag = document.getElementById('wpm')
 const restartGame = document.getElementById('button')
-// How to calculate accuracy = Correct keys pressed / Total keys pressed
-// How to calculate WPM = Total key pressed / time elasped in minute
-// let wpm = (charTyped / 5)
 // The total key pressed will need to include spaces, numbers, letters and punctuation
 const totalKeys = paragraphs[0].split('').length
-let charIndex = 0
 let timeLeft = 60
+let charIndex = 0
 let mistakes = charIndex
 let isTyping = charIndex
 let timer
@@ -53,34 +50,44 @@ let timer
 inputField.addEventListener('input', () => {
     const characters = quoteDisplayField.querySelectorAll('span')
     let typedCharacter = inputField.value.split('')[charIndex]
-    if (!isTyping) {
-        timer = setInterval(countDown, 1000)
-        isTyping = true
-    }
-    // If user hasn't entered any characters or pressed the backspace
-    if (typedCharacter == null) {
-        if (charIndex > 0) {
-            charIndex--
-            if (characters[charIndex].classList.contains('incorrect')) {
-                mistakes--
+    // If the there are still time left, we want the code below to continue to operate.
+    if (timeLeft > 0) {
+        // Once we call the countdown function when there is an input, it won't restart again on every key clicked.
+        if (!isTyping) {
+            timer = setInterval(countDown, 1000)
+            isTyping = true
+        }
+        // If user hasn't entered any characters or press the backspace 
+        if (typedCharacter == null) {
+            if (charIndex > 0) {
+                charIndex--
+                if (characters[charIndex].classList.contains('incorrect')) {
+                    mistakes--
+                }
+            }
+            characters[charIndex].classList.remove('incorrect', 'correct')
+        } else {
+            // if user typed character and displayed character matches then add the correct class else increase the mistakes and assign the 'incorrect' class to the span
+            if (characters[charIndex].innerHTML === typedCharacter) {
+                characters[charIndex].classList.add('correct')
+
+            } else {
+                mistakes++
+                characters[charIndex].classList.add('incorrect')
             }
         }
-        characters[charIndex].classList.remove('incorrect', 'correct')
-    } else {
-        if (characters[charIndex].innerHTML === typedCharacter) {
-            characters[charIndex].classList.add('correct')
-
-        } else {
-            mistakes++
-            characters[charIndex].classList.add('incorrect')
-        }
+        // Increase the character index number whenever user types in an input, dont care correct or incorrect character
+        charIndex++
+        // How to calculate WPM = Total key pressed correctly divided by 5
+        let wpm = Math.round((charIndex - mistakes) / 5)
+        mistakeTag.innerText = 'Mistakes:' + mistakes
+        charTyped.innerText = 'Characters Typed:' + charIndex
+        wpmTag.innerText = 'WPM:' + wpm
+    } else { // If the time becomes 0, we dont want user to be able to input anything in the field because we need to stop counting anything mistakes/wpm/characters typed.
+        inputField.value = ''
     }
-    charIndex++ // Increase the character index number whenever user types in an input, dont care correct or incorrect character
-
-    mistakeTag.innerText = 'Mistakes:' + mistakes
-    charTyped.innerText = 'Characters Typed:' + charIndex
-
 })
+
 
 function displayParagraph() {
     // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
@@ -95,7 +102,6 @@ function displayParagraph() {
 displayParagraph()
 
 function countDown() {
-    clock.innerText = timeLeft + 's'
     if (timeLeft > 0) {
         timeLeft--
         clock.innerText = timeLeft + 's'

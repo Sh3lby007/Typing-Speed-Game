@@ -1,0 +1,7 @@
+.quote-display span.correct {
+    color: greenyellow;
+}
+
+.quote-display span.incorrect {
+    color: red;
+}
