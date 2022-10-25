@@ -62,40 +62,36 @@ inputField.addEventListener('input', () => {
                     clearInterval(timer)
                 }
             }, 1000)
-
             isTyping = true
         }
-        // If user hasn't entered any characters or press the backspace 
+        // If user hasn't entered any characters or press the backspace: 1. Decrease the character index count. 2. if the span contains incorrect class, remove it and reduce the mistake count. 3. Reduce both incorrect and correct classlist if backspace is clicked. 
         if (typedCharacter == null) {
-            if (charIndex > 0) {
-                charIndex--
-                if (characters[charIndex].classList.contains('incorrect')) {
-                    mistakes--
-                }
+            charIndex--
+            if (characters[charIndex].classList.contains('incorrect')) {
+                mistakes--
             }
-            characters[charIndex].classList.remove('incorrect', 'correct')
+            characters[charIndex].classList.remove("correct", "incorrect")
         } else {
             // if user typed character and displayed character matches then add the correct class else increase the mistakes and assign the 'incorrect' class to the span
-            if (characters[charIndex].innerHTML === typedCharacter) {
+            if (characters[charIndex].innerText === typedCharacter) {
                 characters[charIndex].classList.add('correct')
 
             } else {
                 mistakes++
                 characters[charIndex].classList.add('incorrect')
             }
+            charIndex++
         }
         // Increase the character index number whenever user types in an input, dont care correct or incorrect character
-        charIndex++
-        // How to calculate WPM = Total key pressed correctly divided by 5
-        let wpm = Math.round((charIndex - mistakes) / 5)
-        mistakeTag.innerText = 'Mistakes:' + mistakes
-        charTyped.innerText = 'Characters Typed:' + charIndex
-        wpmTag.innerText = 'WPM:' + wpm
-    } else { // If the time becomes 0, we dont want user to be able to input anything in the field because we need to stop counting anything mistakes/wpm/characters typed.
+    } else { // If the time becomes 0, we dont want user to be able to input anything in the field because we need to stop counting anything mistakes/wpm/characters typed. Only display the characters typed, mistakes made and wpm after timer stops.
         inputField.value = ''
+        charTyped.innerText = 'Characters Typed:' + charIndex
+        mistakeTag.innerText = 'Mistakes:' + mistakes
+        // How to calculate WPM = Total key pressed correctly divided by 5. Giving it a math.round function to round wpm up to the nearest integer because wpm can't have decimals.
+        let wpm = Math.round((charIndex - mistakes) / 5)
+        wpmTag.innerText = 'WPM:' + wpm
     }
 })
-
 
 function displayParagraph() {
     // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
