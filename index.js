@@ -54,7 +54,15 @@ inputField.addEventListener('input', () => {
     if (timeLeft > 0) {
         // Once we call the countdown function when there is an input, it won't restart again on every key clicked.
         if (!isTyping) {
-            timer = setInterval(countDown, 1000)
+            timer = setInterval(function countDown() {
+                if (timeLeft > 0) {
+                    timeLeft--
+                    clock.innerText = timeLeft + 's'
+                } else {
+                    clearInterval(timer)
+                }
+            }, 1000)
+
             isTyping = true
         }
         // If user hasn't entered any characters or press the backspace 
@@ -101,14 +109,6 @@ function displayParagraph() {
 
 displayParagraph()
 
-function countDown() {
-    if (timeLeft > 0) {
-        timeLeft--
-        clock.innerText = timeLeft + 's'
-    } else {
-        clearInterval(timer)
-    }
-}
 
 // Reloads the page and restarts the game
 restartGame.addEventListener('click', () => {
