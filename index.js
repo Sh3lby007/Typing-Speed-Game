@@ -9,7 +9,6 @@
 7. The bar allows you to go back and edit on your mistakes.
 8. Once everything is done, it will display WPM, Characters typed, accuracy and a try again button which will reset everything
 */
-
 /*
 Step 2:
  
@@ -22,7 +21,6 @@ Step 4
 When the timer stops and the game ends, there needs to be a a compilation of WPM, how many characters are typed and the accuracy of the typing. A try again button also need to appear which resets all value to default and we can create a function call restart() to handle this.
 A new quote also needs to appear when we click the try again button, we can call a newQuote() function to handle this request.
 */
-
 /*
 Step 1:
 Assign variables to elements from the HTML document so that they can easily accessed and modified. Make sure that these variables are used multiple times as it is not good practice to declare global variables if you only gonna use them once
@@ -49,6 +47,7 @@ let timer
 
 inputField.addEventListener('input', () => {
     const characters = quoteDisplayField.querySelectorAll('span')
+    let quoteArray = Object.keys(characters)
     let typedCharacter = inputField.value.split('')[charIndex]
     // If the there are still time left, we want the code below to continue to operate.
     if (timeLeft > 0) {
@@ -71,8 +70,8 @@ inputField.addEventListener('input', () => {
                 mistakes--
             }
             characters[charIndex].classList.remove("correct", "incorrect")
-        } else {
             // if user typed character and displayed character matches then add the correct class else increase the mistakes and assign the 'incorrect' class to the span
+        } else {
             if (characters[charIndex].innerText === typedCharacter) {
                 characters[charIndex].classList.add('correct')
 
@@ -82,6 +81,7 @@ inputField.addEventListener('input', () => {
             }
             charIndex++
         }
+        if (quoteArray.length === charIndex) renderQuote()
         // Increase the character index number whenever user types in an input, dont care correct or incorrect character
     } else { // If the time becomes 0, we dont want user to be able to input anything in the field because we need to stop counting anything mistakes/wpm/characters typed. Only display the characters typed, mistakes made and wpm after timer stops.
         inputField.value = ''
@@ -93,17 +93,33 @@ inputField.addEventListener('input', () => {
     }
 })
 
-function displayParagraph() {
-    // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
-    // This is so we can check manipulate each characters easily from now on and later manipulate them in the css file so they display the colour we want if the user enters wrong characters.
-    paragraphs[0].split('').forEach(span => {
-        let characterSpan = `<span>${span}</span>`;
-        quoteDisplayField.innerHTML += characterSpan
-        inputField.value = null
-    })
+function randomQuote() {
+    return fetch('http://api.quotable.io/random')
+        .then(response => response.json())
+        .then(data => data.content)
 }
 
-displayParagraph()
+async function renderQuote() {
+    const quote = await randomQuote()
+    quoteDisplayField.innerHTML = ''
+    quote.split('').forEach(span => {
+        let characterSpan = `<span>${span}</span>`
+        quoteDisplayField.innerHTML += characterSpan
+    });
+    inputField.value = null
+}
+renderQuote()
+// function displayParagraph() {
+//     // Spllittng all characters in the parapgrah and reiterate through the array and add span tag to each individual characters. 
+//     // This is so we can check manipulate each characters easily from now on and later manipulate them in the css file so they display the colour we want if the user enters wrong characters.
+//     paragraphs[0].split('').forEach(span => {
+//         let characterSpan = `<span>${span}</span>`;
+//         quoteDisplayField.innerHTML += characterSpan
+//         inputField.value = null
+//     })
+// }
+
+// displayParagraph()
 
 
 // Reloads the page and restarts the game
