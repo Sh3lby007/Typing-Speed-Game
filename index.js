@@ -81,7 +81,19 @@ inputField.addEventListener('input', () => {
             }
             charIndex++
         }
-        if (quoteArray.length === charIndex) renderQuote()
+
+        if (characters.length === charIndex) {
+
+            await renderQuote()
+
+            // Reset char index, so that on new quote you can split and retrieve char again
+            // But this will not affect the wpmCharIndex used for WPM calculation
+            charIndex = 0
+
+            // Reset the input array once the new quote is available
+            inputArray = []
+        }
+        // if (characters.length == charIndex) renderQuote()
         // Increase the character index number whenever user types in an input, dont care correct or incorrect character
     } else { // If the time becomes 0, we dont want user to be able to input anything in the field because we need to stop counting anything mistakes/wpm/characters typed. Only display the characters typed, mistakes made and wpm after timer stops.
         inputField.value = ''
@@ -99,13 +111,23 @@ function randomQuote() {
         .then(data => data.content)
 }
 
+/**
+ * This function sets a new quote for user to type
+ */
 async function renderQuote() {
     const quote = await randomQuote()
+
+    // When we call this function, the previous quote have to be removed for the new quote to appear.
     quoteDisplayField.innerHTML = ''
+
+    // Spllittng all characters in the parapgrah by spacing and reiterate through the array and add span tag to each individual characters. 
+    // This is so we can manipulate each characters easily by adding classlist so that in the css file, they display the colour we want if the user enters wrong characters.
     quote.split('').forEach(span => {
         let characterSpan = `<span>${span}</span>`
         quoteDisplayField.innerHTML += characterSpan
     });
+
+    // Clears the user input field
     inputField.value = null
 }
 renderQuote()
